@@ -73,11 +73,13 @@ func List_Books() ([]models.Book, error) {
 	var bookList []models.Book
 
 	cursor, err := bookCollection.Find(ctx, bson.D{})
-	defer cursor.Close(ctx)
+
 	if err != nil {
 		log.Fatalln(err)
 		return nil, err
 	}
+	defer cursor.Close(ctx)
+
 	for cursor.Next(ctx) {
 		var book models.Book
 		err := cursor.Decode(&book)
